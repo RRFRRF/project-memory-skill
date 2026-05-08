@@ -1,6 +1,6 @@
 ---
 name: project-memory
-description: Lightweight project memory, cross-agent collaboration, progress tracking and handoff skill. Initializes or maintains CLAUDE.md, AGENTS.md, LOOP.md, BUGS.md and .mem/ files. Defaults to English, emphasizes efficiency, conciseness, and factual accuracy.
+description: Initialize a lightweight project memory system. Creates CLAUDE.md, AGENTS.md, LOOP.md, BUGS.md and .mem/ files. After initialization, daily maintenance rules are embedded in AGENTS.md (active via system prompts) — no need to re-invoke this skill. Only use for: initialization, memory status queries, compression/cleanup. Defaults to English.
 ---
 
 # project-memory
@@ -56,25 +56,16 @@ Responsibilities:
 
 ## 2. Activation Triggers
 
-Use this skill when the user requests:
+This skill's core responsibility is **initialization**. Once initialized, `AGENTS.md` already contains complete work rules, update principles, collaboration rules, and security rules — these rules stay active via `CLAUDE.md → @AGENTS.md` as system prompts. Routine updates to `.mem/state.md`, `BUGS.md`, `.mem/handoff.md` etc. are driven by AGENTS.md — **do NOT re-invoke this skill** for them.
 
-- Initialize project memory
-- Set up memory system
-- Create cross-agent collaboration memory
-- Update project memory
-- View memory status
-- Compress/clean up memory
-- Write handoff
-- Update BUGS
-- Update LOOP
-- Record ADR
+Only invoke this skill for:
 
-Also use when:
+- Initialize project memory / Set up memory system
+- View memory status (user explicitly asks "memory status")
+- Compress/clean up memory files
+- User explicitly requests using the project-memory skill
 
-- The project already has `AGENTS.md` or `.mem/`
-- The agent is about to finish a long task and needs to leave a handoff
-
-If the project lacks memory files but the user has not explicitly requested initialization, do not create the full memory system on your own. You may briefly suggest that this project is suitable for project memory initialization.
+Note: If the project lacks memory files but the user has not explicitly requested initialization, do not create the full memory system on your own. You may briefly suggest that this project is suitable for project memory initialization.
 
 ---
 

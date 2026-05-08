@@ -40,6 +40,14 @@ The memory system consists of:
 - Only update `LOOP.md` when the user provides long-running objectives, loop goals, or persistent constraints.
 - By default, only update the most relevant memory file; do not update multiple files simultaneously just for formality.
 
+## Memory Hygiene
+
+- Keep each memory file short.
+- Periodically merge or delete stale handoff logs.
+- Move fixed and verified bugs to the Fixed section; don't let them pile up in Open.
+- Delete outdated, redundant, or irrelevant information — don't keep it "just in case."
+- If a memory file keeps growing, proactively ask the user whether to compress it.
+
 ## Collaboration Rules
 
 - `.mem/handoff.md` is a weak collaboration signal, not a strict lock.

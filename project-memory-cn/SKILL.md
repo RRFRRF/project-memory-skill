@@ -1,6 +1,6 @@
 ---
 name: project-memory-cn
-description: 轻量级项目记忆、跨 agent 协作、进度追踪和交接 skill。用于初始化或维护 CLAUDE.md、AGENTS.md、LOOP.md、BUGS.md 与 .mem/ 文件。默认优先中文，强调高效、精简、事实性。
+description: 初始化轻量级项目记忆系统。创建 CLAUDE.md、AGENTS.md、LOOP.md、BUGS.md 与 .mem/ 文件。初始化后日常维护规则已嵌入 AGENTS.md（通过系统提示词持续生效），无需重复调用本 skill。仅用于：初始化、记忆状态查询、压缩清理。默认中文。
 ---
 
 # project-memory-cn
@@ -56,25 +56,16 @@ project-root/
 
 ## 2. 激活场景
 
-当用户提出以下请求时使用本 skill：
+本 skill 的核心职责是**初始化**记忆系统。初始化完成后，`AGENTS.md` 中已包含完整的工作规则、更新原则、协作规则和安全规则——这些规则通过 `CLAUDE.md → @AGENTS.md` 作为系统提示词持续生效。日常更新 `.mem/state.md`、`BUGS.md`、`.mem/handoff.md` 等操作由 AGENTS.md 驱动，**无需重复调用本 skill**。
 
-- 初始化项目记忆
-- 建立记忆系统
-- 创建跨 agent 协作记忆
-- 更新项目记忆
-- 查看记忆状态
-- 压缩/清理记忆
-- 写 handoff
-- 更新 BUGS
-- 更新 LOOP
-- 记录 ADR
+仅在以下场景调用本 skill：
 
-也在以下情况使用：
+- 初始化项目记忆 / 建立记忆系统
+- 查看记忆状态（用户明确询问"记忆状态"）
+- 压缩/清理记忆文件
+- 用户明确要求使用 project-memory skill
 
-- 项目已有 `AGENTS.md` 或 `.mem/`
-- agent 即将结束长任务，需要留下交接
-
-如果项目缺少记忆文件，但用户没有明确要求初始化，不要擅自创建整套记忆系统。可以简短提醒用户此项目适合初始化项目记忆。
+注意：如果项目缺少记忆文件，但用户没有明确要求初始化，不要擅自创建整套记忆系统。可以简短提醒用户此项目适合初始化项目记忆。
 
 ---
 
