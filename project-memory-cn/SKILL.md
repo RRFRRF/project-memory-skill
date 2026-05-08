@@ -1,9 +1,9 @@
 ---
-name: project-memory
+name: project-memory-cn
 description: 轻量级项目记忆、跨 agent 协作、进度追踪和交接 skill。用于初始化或维护 CLAUDE.md、AGENTS.md、LOOP.md、BUGS.md 与 .mem/ 文件。默认优先中文，强调高效、精简、事实性。
 ---
 
-# project-memory
+# project-memory-cn
 
 你负责维护一个轻量级项目记忆系统。它用于跨 agent、跨 session 的代码项目协作。
 

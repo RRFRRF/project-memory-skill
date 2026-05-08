@@ -1,5 +1,7 @@
 # Lightweight Project Memory System
 
+[中文说明](README.cn.md)
+
 A lightweight project-level memory system for AI coding agents. It stores project context, progress, bug queue, decisions, and handoff notes as Markdown files inside a repository.
 
 The goal is not heavy documentation management. The goal is to help agents quickly answer:
@@ -29,25 +31,24 @@ This system intentionally avoids:
 
 ```text
 project-memory-skill/
-├── readme.md                  # This file (English)
-├── readme.cn.md               # Chinese README
-├── system-prompt.md           # System prompt (English) — add to CLAUDE.md / AGENTS.md
+├── README.md                  # This file
+├── README.cn.md               # Chinese README
+├── system-prompt.md           # System prompt (English), add to CLAUDE.md / AGENTS.md
 ├── system-prompt.cn.md        # System prompt (Chinese)
-└── project-memory/
-    ├── SKILL.md               # Skill definition (English) — default for agents
-    └── skill.cn.md            # Skill definition (Chinese) — memory content in Chinese
+├── project-memory/
+│   └── SKILL.md               # English skill
+└── project-memory-cn/
+    └── SKILL.md               # Chinese skill
 ```
 
-### Bilingual Design
+### Skill Choices
 
-| File | Language | Purpose |
+| Skill | Language | Install when |
 |---|---|---|
-| `system-prompt.md` | English | System prompt for English-speaking agents |
-| `system-prompt.cn.md` | Chinese | System prompt for Chinese-speaking agents |
-| `project-memory/SKILL.md` | English | Skill definition, templates, and rules in English |
-| `project-memory/skill.cn.md` | Chinese | Skill definition, templates, and rules in Chinese |
+| `project-memory` | English | Your project memory and assistant responses should default to English |
+| `project-memory-cn` | Chinese | Your project memory and assistant responses should default to Chinese |
 
-Choose the language that matches your project and team. Both versions are functionally identical.
+Both skills are functionally identical. They are split into two directories so installers and humans can choose a language by path without renaming files.
 
 ## Memory File Structure
 
@@ -81,41 +82,63 @@ project-root/
 
 ## One-Click Install
 
+### Recommended Prompts
+
+For English:
+
+```text
+Install the project-memory skill from https://github.com/RRFRRF/project-memory-skill/tree/main/project-memory.
+Also add the guidance from https://github.com/RRFRRF/project-memory-skill/blob/main/system-prompt.md to my user-level agent instructions.
+```
+
+For Chinese:
+
+```text
+Install the project-memory-cn skill from https://github.com/RRFRRF/project-memory-skill/tree/main/project-memory-cn.
+Also add the guidance from https://github.com/RRFRRF/project-memory-skill/blob/main/system-prompt.cn.md to my user-level agent instructions.
+```
+
 ### Claude Code
 
 Tell Claude Code:
 
 ```text
-Install the project-memory skill from https://github.com/RRFRRF/project-memory-skill. Use the [English/Chinese] version. Add the system prompt to my user-level CLAUDE.md.
+Install the project-memory skill from https://github.com/RRFRRF/project-memory-skill/tree/main/project-memory.
+Add the system prompt from system-prompt.md to my user-level CLAUDE.md.
 ```
 
-Claude Code will:
+For Chinese, use:
 
-1. Clone the repo and read the skill files.
-2. Copy `SKILL.md` (English) or `skill.cn.md` (Chinese) as the project-memory skill.
-3. Append the content of `system-prompt.md` (English) or `system-prompt.cn.md` (Chinese) to your `~/.claude/CLAUDE.md`.
+```text
+Install the project-memory-cn skill from https://github.com/RRFRRF/project-memory-skill/tree/main/project-memory-cn.
+Add the system prompt from system-prompt.cn.md to my user-level CLAUDE.md.
+```
 
 ### Codex
 
 Tell Codex:
 
 ```text
-Install the project-memory skill from https://github.com/RRFRRF/project-memory-skill. Use the [English/Chinese] version. Add the system prompt to my user-level AGENTS.md.
+Install the project-memory skill from https://github.com/RRFRRF/project-memory-skill/tree/main/project-memory.
+Add the system prompt from system-prompt.md to my user-level AGENTS.md.
 ```
 
-Codex will:
+For Chinese, use:
 
-1. Clone the repo and read the skill files.
-2. Copy `SKILL.md` (English) or `skill.cn.md` (Chinese) as the project-memory skill.
-3. Append the content of `system-prompt.md` (English) or `system-prompt.cn.md` (Chinese) to your `~/.codex/AGENTS.md`.
+```text
+Install the project-memory-cn skill from https://github.com/RRFRRF/project-memory-skill/tree/main/project-memory-cn.
+Add the system prompt from system-prompt.cn.md to my user-level AGENTS.md.
+```
 
 ### Any Agent
 
 For any agent that supports custom instructions:
 
-1. Choose language: English → `system-prompt.md` + `SKILL.md`, or Chinese → `system-prompt.cn.md` + `skill.cn.md`
-2. Add the system prompt content to the agent's user-level config file.
-3. Load the skill file into the agent's skill system or paste it into the project's `AGENTS.md`.
+1. Choose a skill directory: `project-memory/` for English or `project-memory-cn/` for Chinese.
+2. Install or copy that directory into the agent's skill system.
+3. Add the matching system prompt to the agent's user-level config:
+   - English: `system-prompt.md`
+   - Chinese: `system-prompt.cn.md`
 
 ## Initialization
 

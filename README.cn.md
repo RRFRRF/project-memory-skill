@@ -1,5 +1,7 @@
 # 轻量项目级记忆系统
 
+[English README](README.md)
+
 这是一个为 AI 编码代理设计的轻量项目级记忆系统。它通过仓库内的 Markdown 文件，让 Claude Code、Codex、其他 CLI agent 或多个会话共享项目状态、缺陷、决策和交接信息。
 
 目标不是建立复杂的文档治理系统，而是让 agent 能够快速知道：
@@ -31,25 +33,24 @@
 
 ```text
 project-memory-skill/
-├── readme.md                  # 英文 README
-├── readme.cn.md               # 本文件（中文）
-├── system-prompt.md           # 系统提示词（英文）— 加入 CLAUDE.md / AGENTS.md
+├── README.md                  # 英文 README
+├── README.cn.md               # 本文件
+├── system-prompt.md           # 系统提示词（英文），加入 CLAUDE.md / AGENTS.md
 ├── system-prompt.cn.md        # 系统提示词（中文）
-└── project-memory/
-    ├── SKILL.md               # Skill 定义（英文）— agent 默认使用
-    └── skill.cn.md            # Skill 定义（中文）— 记忆内容主要用中文
+├── project-memory/
+│   └── SKILL.md               # 英文 skill
+└── project-memory-cn/
+    └── SKILL.md               # 中文 skill
 ```
 
-### 双语设计
+### Skill 选择
 
-| 文件 | 语言 | 用途 |
+| Skill | 语言 | 适合场景 |
 |---|---|---|
-| `system-prompt.md` | 英文 | 英文 agent 的系统提示词 |
-| `system-prompt.cn.md` | 中文 | 中文 agent 的系统提示词 |
-| `project-memory/SKILL.md` | 英文 | Skill 定义、模板和规则（英文） |
-| `project-memory/skill.cn.md` | 中文 | Skill 定义、模板和规则（中文） |
+| `project-memory` | 英文 | 希望项目记忆和回复默认使用英文 |
+| `project-memory-cn` | 中文 | 希望项目记忆和回复默认使用中文 |
 
-选择与你的项目和团队匹配的语言版本。两个版本功能完全一致。
+两个 skill 功能一致，只是默认语言不同。拆成两个目录后，安装器和用户都可以直接按路径选择语言，不需要额外重命名文件。
 
 ## 记忆文件结构
 
@@ -83,41 +84,63 @@ project-root/
 
 ## 一键安装
 
+### 推荐提示词
+
+英文版：
+
+```text
+Install the project-memory skill from https://github.com/RRFRRF/project-memory-skill/tree/main/project-memory.
+Also add the guidance from https://github.com/RRFRRF/project-memory-skill/blob/main/system-prompt.md to my user-level agent instructions.
+```
+
+中文版：
+
+```text
+从 https://github.com/RRFRRF/project-memory-skill/tree/main/project-memory-cn 安装 project-memory-cn skill。
+并把 https://github.com/RRFRRF/project-memory-skill/blob/main/system-prompt.cn.md 中的规则加入我的用户级 agent 指令。
+```
+
 ### Claude Code
 
 对 Claude Code 说：
 
 ```text
-从 https://github.com/RRFRRF/project-memory-skill 安装 project-memory skill。使用[英文/中文]版本。把系统提示词加入我的用户级 CLAUDE.md。
+从 https://github.com/RRFRRF/project-memory-skill/tree/main/project-memory-cn 安装 project-memory-cn skill。
+把 system-prompt.cn.md 的内容加入我的用户级 CLAUDE.md。
 ```
 
-Claude Code 会：
+如果要英文版，用：
 
-1. 克隆仓库并读取 skill 文件。
-2. 复制 `SKILL.md`（英文）或 `skill.cn.md`（中文）作为 project-memory skill。
-3. 将 `system-prompt.md`（英文）或 `system-prompt.cn.md`（中文）的内容追加到你的 `~/.claude/CLAUDE.md`。
+```text
+Install the project-memory skill from https://github.com/RRFRRF/project-memory-skill/tree/main/project-memory.
+Add the system prompt from system-prompt.md to my user-level CLAUDE.md.
+```
 
 ### Codex
 
 对 Codex 说：
 
 ```text
-从 https://github.com/RRFRRF/project-memory-skill 安装 project-memory skill。使用[英文/中文]版本。把系统提示词加入我的用户级 AGENTS.md。
+从 https://github.com/RRFRRF/project-memory-skill/tree/main/project-memory-cn 安装 project-memory-cn skill。
+把 system-prompt.cn.md 的内容加入我的用户级 AGENTS.md。
 ```
 
-Codex 会：
+如果要英文版，用：
 
-1. 克隆仓库并读取 skill 文件。
-2. 复制 `SKILL.md`（英文）或 `skill.cn.md`（中文）作为 project-memory skill。
-3. 将 `system-prompt.md`（英文）或 `system-prompt.cn.md`（中文）的内容追加到你的 `~/.codex/AGENTS.md`。
+```text
+Install the project-memory skill from https://github.com/RRFRRF/project-memory-skill/tree/main/project-memory.
+Add the system prompt from system-prompt.md to my user-level AGENTS.md.
+```
 
 ### 任意 Agent
 
 对于支持自定义指令的任意 agent：
 
-1. 选择语言：英文 → `system-prompt.md` + `SKILL.md`，中文 → `system-prompt.cn.md` + `skill.cn.md`
-2. 将系统提示词内容添加到 agent 的用户级配置文件。
-3. 将 skill 文件加载到 agent 的 skill 系统中，或粘贴到项目的 `AGENTS.md`。
+1. 选择 skill 目录：英文用 `project-memory/`，中文用 `project-memory-cn/`。
+2. 将该目录安装或复制到 agent 的 skill 系统。
+3. 将对应系统提示词加入 agent 用户级配置：
+   - 英文：`system-prompt.md`
+   - 中文：`system-prompt.cn.md`
 
 ## 初始化
 
